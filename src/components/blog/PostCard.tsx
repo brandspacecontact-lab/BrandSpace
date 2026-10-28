@@ -127,7 +127,7 @@ export function PostCard({
 
   return (
     <article className={cn("group relative", className)}>
-      <div data-reveal="clip">
+      <div>
         <Cover photo={post.cover} sizes={sizes[variant]} eager={eager} priority={eager && feature} className={cn("rounded-[8px]", media[variant])} />
       </div>
       {feature ? (

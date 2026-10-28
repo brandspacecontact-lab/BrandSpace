@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { RevealText } from "@/components/motion/RevealText";
+import { Headline } from "@/components/ui/Headline";
 import { cn } from "@/lib/utils";
 
 export type Crumb = { name: string; path: string };
@@ -70,21 +70,19 @@ export function PageHero({
       <div aria-hidden className="pointer-events-none absolute -right-40 -top-40 h-[34rem] w-[34rem] rounded-full bg-green/[0.07] blur-3xl" />
       <div className="container-bs relative z-[2]">
         <Breadcrumbs items={crumbs} />
-        <p data-reveal="up" className="eyebrow mt-10 flex items-center gap-3 text-paper/60 sm:mt-14">
+        <p className="eyebrow mt-10 flex items-center gap-3 text-paper/60 sm:mt-12">
           <span className="h-[7px] w-[7px] rounded-full bg-green" aria-hidden />
           {eyebrow}
         </p>
-        <RevealText
+        <Headline
           as="h1"
           text={title}
-          className="font-display-tight mt-6 max-w-[16ch] text-[clamp(3rem,8.4vw,8.4rem)] font-semibold"
+          className="font-display-tight mt-6 max-w-[16ch] text-[clamp(2.5rem,5.6vw,4.9rem)] font-semibold"
         />
         <div className={cn(!!visual && "lg:grid lg:grid-cols-12 lg:items-start lg:gap-10")}>
           <div className={cn(!!visual && "lg:col-span-6")}>
             {intro && (
-              <p data-reveal="up" className="mt-8 max-w-2xl text-lg leading-relaxed text-paper/65 sm:text-xl" style={{ ["--rv-delay" as string]: "200ms" }}>
-                {intro}
-              </p>
+              <p className="mt-7 max-w-2xl text-[1.05rem] leading-relaxed text-paper/70 sm:text-lg">{intro}</p>
             )}
             {children}
           </div>

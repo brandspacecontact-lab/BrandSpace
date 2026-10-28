@@ -10,12 +10,9 @@
     "typecheck": "tsc --noEmit",
     "assets:logo": "node scripts/process-logo.mjs",
     "assets:portfolio": "node scripts/process-portfolio.mjs",
-    "assets:og": "node scripts/generate-og.mjs",
-    "growth-city:frames": "node scripts/growth-city-frames.mjs"
+    "assets:og": "node scripts/generate-og.mjs"
   },
   "dependencies": {
-    "gsap": "^3.15.0",
-    "lenis": "^1.3.26",
     "marked": "^18.0.14",
     "next": "16.3.6",
     "react": "19.2.8",

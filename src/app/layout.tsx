@@ -4,12 +4,8 @@ import "./globals.css";
 import { site } from "@/data/site";
 import { organizationSchema } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { InViewObserver } from "@/components/motion/InViewObserver";
-import { CursorLabel } from "@/components/motion/CursorLabel";
-import { ScrollFx } from "@/components/motion/ScrollFx";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -83,8 +79,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       suppressHydrationWarning
     >
       <head>
-        {/* Marks JS as available so reveal animations can start hidden without hiding content for no-JS visitors. */}
-        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         <JsonLd data={organizationSchema()} />
       </head>
       <body>
@@ -94,14 +88,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         >
           Skip to content
         </a>
-        <SmoothScroll>
-          <Navbar />
-          <main id="main">{children}</main>
-          <Footer />
-        </SmoothScroll>
-        <InViewObserver />
-        <ScrollFx />
-        <CursorLabel />
+        <Navbar />
+        <main id="main">{children}</main>
+        <Footer />
       </body>
     </html>
   );

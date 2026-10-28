@@ -2,8 +2,7 @@
 
 import Script from "next/script";
 import Link from "next/link";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
+import { useEffect, useRef, useState } from "react";
 import { budgetOptions, contactSchema, serviceOptions } from "@/lib/contact";
 import { whatsappUrl, mailUrl } from "@/lib/whatsapp";
 import { site } from "@/data/site";
@@ -52,20 +51,6 @@ export function ContactForm() {
     if (status !== "success") return;
     successRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
     successRef.current?.focus({ preventScroll: true });
-  }, [status]);
-
-  // Success: the badge pops, the check draws itself, a ring pulses out and the copy rises.
-  useLayoutEffect(() => {
-    const el = successRef.current;
-    if (status !== "success" || !el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const tl = gsap.timeline();
-    tl.fromTo(el.querySelector(".cs-badge"), { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.8, ease: "back.out(1.7)" })
-      .fromTo(el.querySelector(".cs-check"), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.55, ease: "power2.out" }, 0.3)
-      .fromTo(el.querySelector(".cs-ring"), { scale: 1, opacity: 0.7 }, { scale: 2.4, opacity: 0, duration: 1.3, ease: "expo.out" }, 0.35)
-      .fromTo(el.querySelectorAll(".cs-rise"), { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "expo.out", stagger: 0.09 }, 0.4);
-    return () => {
-      tl.kill();
-    };
   }, [status]);
 
   const errors = { ...validate(values), ...serverErrors };
@@ -125,7 +110,7 @@ export function ContactForm() {
     return (
       <div ref={successRef} tabIndex={-1} role="status" aria-live="polite" className="py-6 text-center outline-none sm:py-10">
         <span className="relative mx-auto grid h-16 w-16 place-items-center">
-          <span aria-hidden className="cs-ring absolute inset-0 rounded-full border-2 border-green opacity-0" />
+          <span aria-hidden className="cs-ring absolute inset-0 rounded-full border-2 border-green" />
           <span className="cs-badge grid h-16 w-16 place-items-center rounded-full bg-green text-ink">
             <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <path className="cs-check" d="m5 12.5 4.5 4.5L19 7.5" pathLength={1} strokeDasharray="1" />

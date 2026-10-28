@@ -11,7 +11,6 @@ import { cn } from "@/lib/utils";
  * sized in container units so they scale cleanly from phone to desktop.
  * No performance numbers are shown: nothing here claims a client result.
  *
- * Each positioned piece carries `data-sv-item` so <Services> can stagger it.
  */
 export function ServiceVisual({ kind, className, eager }: { kind: Kind; className?: string; eager?: boolean }) {
   return (
@@ -85,16 +84,16 @@ const card = "rounded-[1.2cqw] shadow-[0_3cqw_6cqw_-2cqw_rgba(0,0,0,0.75)] ring-
 function Web({ eager }: { eager?: boolean }) {
   return (
     <>
-      <div data-sv-item className={cn("absolute left-[34%] top-[6%] w-[58%] overflow-hidden bg-ink-3 opacity-60", card)}>
+      <div className={cn("absolute left-[34%] top-[6%] w-[58%] overflow-hidden bg-ink-3 opacity-60", card)}>
         <Chrome url="zobhungr.com" />
         <Crop src={shot.zob} sizes="(min-width: 1024px) 24vw, 50vw" className="aspect-[16/9]" pos="50% 0%" />
       </div>
-      <div data-sv-item className={cn("absolute left-[5%] top-[15%] w-[64%] overflow-hidden bg-ink-3", card)}>
+      <div className={cn("absolute left-[5%] top-[15%] w-[64%] overflow-hidden bg-ink-3", card)}>
         <Chrome url="casa-mauve-three.vercel.app" />
         <Crop src={shot.casa} sizes="(min-width: 1024px) 28vw, 60vw" className="aspect-[16/9]" pos="50% 0%" eager={eager} />
       </div>
       {/* Responsive: the same product on a phone */}
-      <div data-sv-item className="absolute right-[7%] top-[20%] w-[19%] rounded-[2.4cqw] bg-ink-4 p-[0.7cqw] shadow-[0_3cqw_6cqw_-2cqw_rgba(0,0,0,0.8)] ring-1 ring-paper/15">
+      <div className="absolute right-[7%] top-[20%] w-[19%] rounded-[2.4cqw] bg-ink-4 p-[0.7cqw] shadow-[0_3cqw_6cqw_-2cqw_rgba(0,0,0,0.8)] ring-1 ring-paper/15">
         <div className="overflow-hidden rounded-[1.8cqw] bg-[#0b0906]">
           <div className="flex items-center justify-between px-[1.4cqw] py-[1.2cqw]">
             <span className="h-[1cqw] w-[5cqw] rounded-full bg-paper/70" />
@@ -112,13 +111,13 @@ function Web({ eager }: { eager?: boolean }) {
         </div>
       </div>
       {/* Code & search foundations */}
-      <div data-sv-item className={cn("absolute bottom-[7%] left-[44%] w-[36%] bg-ink-2/95 p-[1.8cqw] font-mono text-[1.25cqw] leading-[1.75] backdrop-blur", card)}>
+      <div className={cn("absolute bottom-[7%] left-[44%] w-[36%] bg-ink-2/95 p-[1.8cqw] font-mono text-[1.25cqw] leading-[1.75] backdrop-blur", card)}>
         <p><span className="text-green">export const</span> <span className="text-paper/85">metadata</span> <span className="text-paper/50">=</span> <span className="text-paper/50">{"{"}</span></p>
         <p className="pl-[2cqw]"><span className="text-[#7cc6ff]">title</span><span className="text-paper/50">:</span> <span className="text-[#e8c07d]">&quot;Boutique hotel…&quot;</span></p>
         <p className="pl-[2cqw]"><span className="text-[#7cc6ff]">@type</span><span className="text-paper/50">:</span> <span className="text-[#e8c07d]">&quot;LocalBusiness&quot;</span></p>
         <p><span className="text-paper/50">{"}"}</span></p>
       </div>
-      <div data-sv-item className="absolute bottom-[8%] left-[5%] flex gap-[1cqw]">
+      <div className="absolute bottom-[8%] left-[5%] flex gap-[1cqw]">
         {["LCP", "CLS", "INP"].map((m) => (
           <span key={m} className="flex items-center gap-[0.6cqw] rounded-full bg-ink-3 px-[1.4cqw] py-[0.8cqw] text-[1.2cqw] font-semibold tracking-[0.12em] text-paper/80 ring-1 ring-paper/10">
             <span className="h-[1cqw] w-[1cqw] rounded-full bg-green" />
@@ -156,7 +155,7 @@ function Social({ eager }: { eager?: boolean }) {
   ] as const;
   return (
     <>
-      <div data-sv-item className="absolute left-[7%] top-[6%] w-[29%] rounded-[2.6cqw] bg-ink-4 p-[0.7cqw] shadow-[0_3cqw_6cqw_-2cqw_rgba(0,0,0,0.8)] ring-1 ring-paper/15">
+      <div className="absolute left-[7%] top-[6%] w-[29%] rounded-[2.6cqw] bg-ink-4 p-[0.7cqw] shadow-[0_3cqw_6cqw_-2cqw_rgba(0,0,0,0.8)] ring-1 ring-paper/15">
         <div className="overflow-hidden rounded-[2cqw] bg-ink-2 pb-[1.2cqw]">
           <div className="flex items-center gap-[1.2cqw] px-[1.6cqw] pb-[1.2cqw] pt-[1.8cqw]">
             <span className="grid h-[5cqw] w-[5cqw] place-items-center rounded-full bg-gradient-to-tr from-green to-[#f2a65a] p-[0.35cqw]">
@@ -174,7 +173,7 @@ function Social({ eager }: { eager?: boolean }) {
           </div>
         </div>
       </div>
-      <div data-sv-item className={cn("absolute left-[41%] top-[8%] w-[52%] bg-ink-2 p-[2cqw]", card)}>
+      <div className={cn("absolute left-[41%] top-[8%] w-[52%] bg-ink-2 p-[2cqw]", card)}>
         <div className="flex items-center justify-between">
           <span className="text-[1.3cqw] font-semibold uppercase tracking-[0.18em] text-paper/70">Content calendar</span>
           <span className="h-[1cqw] w-[6cqw] rounded-full bg-paper/15" />
@@ -189,7 +188,7 @@ function Social({ eager }: { eager?: boolean }) {
           ))}
         </div>
       </div>
-      <div data-sv-item className={cn("absolute left-[41%] top-[47%] w-[20%] overflow-hidden bg-ink-3", card)}>
+      <div className={cn("absolute left-[41%] top-[47%] w-[20%] overflow-hidden bg-ink-3", card)}>
         <Crop src={shot.bar} sizes="(min-width: 1024px) 10vw, 20vw" className="aspect-[9/14]" pos="86% 50%" zoom={1.35} />
         <span className="absolute left-1/2 top-[40%] grid h-[5cqw] w-[5cqw] -translate-x-1/2 place-items-center rounded-full bg-paper/85">
           <span className="ml-[0.4cqw] h-0 w-0 border-y-[1cqw] border-l-[1.6cqw] border-y-transparent border-l-ink" />
@@ -199,7 +198,7 @@ function Social({ eager }: { eager?: boolean }) {
           <span className="block h-[0.8cqw] w-[55%] rounded-full bg-paper/45" />
         </span>
       </div>
-      <div data-sv-item className={cn("absolute left-[64%] top-[52%] w-[29%] bg-ink-2 p-[1.8cqw]", card)}>
+      <div className={cn("absolute left-[64%] top-[52%] w-[29%] bg-ink-2 p-[1.8cqw]", card)}>
         <span className="text-[1.2cqw] font-semibold uppercase tracking-[0.16em] text-paper/65">Weekly reach</span>
         <svg viewBox="0 0 120 44" className="mt-[1.2cqw] h-auto w-full" fill="none">
           <path d="M0 38 C14 36 18 30 30 31 S48 22 60 24 S80 12 92 14 S110 5 120 4" stroke="#5bd17b" strokeWidth="2" strokeLinecap="round" />
@@ -225,7 +224,7 @@ function Ads({ eager }: { eager?: boolean }) {
   ];
   return (
     <>
-      <div data-sv-item className={cn("absolute left-[6%] top-[7%] w-[38%] overflow-hidden bg-ink-2", card)}>
+      <div className={cn("absolute left-[6%] top-[7%] w-[38%] overflow-hidden bg-ink-2", card)}>
         <div className="flex items-center gap-[1.2cqw] p-[1.6cqw]">
           <span className="h-[4cqw] w-[4cqw] rounded-full bg-[#d8c29a]" />
           <span className="flex-1 space-y-[0.6cqw]">
@@ -247,7 +246,7 @@ function Ads({ eager }: { eager?: boolean }) {
           <span className="rounded-[0.8cqw] bg-paper px-[1.6cqw] py-[1cqw] text-[1.2cqw] font-semibold text-ink">Book now</span>
         </div>
       </div>
-      <div data-sv-item className={cn("absolute left-[50%] top-[9%] w-[44%] bg-ink-2 p-[2.2cqw]", card)}>
+      <div className={cn("absolute left-[50%] top-[9%] w-[44%] bg-ink-2 p-[2.2cqw]", card)}>
         <span className="text-[1.3cqw] font-semibold uppercase tracking-[0.18em] text-paper/70">Campaign structure</span>
         <div className="mt-[2cqw] space-y-[1.6cqw]">
           {stages.map((s) => (
@@ -263,7 +262,7 @@ function Ads({ eager }: { eager?: boolean }) {
           ))}
         </div>
       </div>
-      <div data-sv-item className={cn("absolute left-[50%] top-[60%] w-[44%] bg-ink-2 p-[2cqw]", card)}>
+      <div className={cn("absolute left-[50%] top-[60%] w-[44%] bg-ink-2 p-[2cqw]", card)}>
         <div className="flex items-center justify-between">
           <span className="text-[1.3cqw] font-semibold uppercase tracking-[0.18em] text-paper/70">Creative testing</span>
           <span className="rounded-full bg-green/15 px-[1.2cqw] py-[0.4cqw] text-[1.05cqw] text-green">Live</span>
@@ -292,7 +291,7 @@ function Gbp({ eager }: { eager?: boolean }) {
   return (
     <>
       {/* Night map */}
-      <svg data-sv-item viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full" fill="none">
+      <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full" fill="none">
         <g fill="#f3f4ef" fillOpacity="0.035">
           {Array.from({ length: 36 }, (_, i) => (
             <rect key={i} x={(i % 9) * 46 + 4 + ((i * 7) % 11)} y={Math.floor(i / 9) * 66 + 8} width={26 + (i % 3) * 6} height={40 - (i % 4) * 5} rx="2" />
@@ -309,21 +308,21 @@ function Gbp({ eager }: { eager?: boolean }) {
           <circle key={`${x}-${y}`} cx={x} cy={y} r="4" fill="#f3f4ef" fillOpacity="0.35" />
         ))}
       </svg>
-      <div data-sv-item className="absolute left-[64%] top-[30%] -translate-x-1/2">
-        <span className="absolute left-1/2 top-[88%] h-[3cqw] w-[9cqw] -translate-x-1/2 rounded-[50%] border border-green/60 sv-pulse" />
+      <div className="absolute left-[64%] top-[30%] -translate-x-1/2">
+        <span className="absolute left-1/2 top-[88%] h-[3cqw] w-[9cqw] -translate-x-1/2 rounded-[50%] border border-green/60" />
         <svg viewBox="0 0 40 52" className="relative w-[6cqw]" fill="none">
           <path d="M20 51C18 45 3 34 3 19a17 17 0 0 1 34 0C37 34 22 45 20 51Z" fill="#5bd17b" />
           <circle cx="20" cy="19" r="6.5" fill="#070908" />
         </svg>
       </div>
-      <div data-sv-item className="absolute left-[5%] top-[7%] flex w-[46%] items-center gap-[1.2cqw] rounded-full bg-paper px-[2cqw] py-[1.3cqw] shadow-[0_2cqw_4cqw_-1.5cqw_rgba(0,0,0,0.7)]">
+      <div className="absolute left-[5%] top-[7%] flex w-[46%] items-center gap-[1.2cqw] rounded-full bg-paper px-[2cqw] py-[1.3cqw] shadow-[0_2cqw_4cqw_-1.5cqw_rgba(0,0,0,0.7)]">
         <svg viewBox="0 0 20 20" className="w-[1.8cqw] shrink-0" fill="none" stroke="#070908" strokeWidth="2.2" strokeLinecap="round">
           <circle cx="8.5" cy="8.5" r="6" />
           <path d="m13 13 5 5" />
         </svg>
         <span className="truncate text-[1.5cqw] text-ink/80">car service near me</span>
       </div>
-      <div data-sv-item className={cn("absolute left-[5%] top-[23%] w-[46%] overflow-hidden bg-ink-2", card)}>
+      <div className={cn("absolute left-[5%] top-[23%] w-[46%] overflow-hidden bg-ink-2", card)}>
         <div className="grid grid-cols-3 gap-[0.3cqw]">
           <Crop src={shot.rov} sizes="(min-width: 1024px) 8vw, 16vw" className="aspect-[4/3]" pos="80% 75%" zoom={2.2} eager={eager} />
           <Crop src={shot.rov} sizes="(min-width: 1024px) 8vw, 16vw" className="aspect-[4/3]" pos="95% 40%" zoom={1.8} />
@@ -354,7 +353,7 @@ function Gbp({ eager }: { eager?: boolean }) {
           </div>
         </div>
       </div>
-      <div data-sv-item className={cn("absolute bottom-[8%] right-[5%] w-[34%] bg-ink-2 p-[1.8cqw]", card)}>
+      <div className={cn("absolute bottom-[8%] right-[5%] w-[34%] bg-ink-2 p-[1.8cqw]", card)}>
         <div className="flex items-center gap-[1cqw]">
           <span className="h-[3.4cqw] w-[3.4cqw] rounded-full bg-paper/20" />
           <span className="flex-1 space-y-[0.6cqw]">
@@ -384,7 +383,7 @@ function Brand() {
   ] as const;
   return (
     <>
-      <div data-sv-item className={cn("absolute bottom-[7%] left-[5%] top-[7%] flex w-[35%] flex-col justify-between bg-ink-2 p-[2.4cqw]", card)}>
+      <div className={cn("absolute bottom-[7%] left-[5%] top-[7%] flex w-[35%] flex-col justify-between bg-ink-2 p-[2.4cqw]", card)}>
         <span className="text-[1.2cqw] font-semibold uppercase tracking-[0.18em] text-paper/55">Typography</span>
         <span className="font-serif text-[15cqw] italic leading-[0.8] text-green">Aa</span>
         <span className="space-y-[0.5cqw] text-[1.3cqw] text-paper/70">
@@ -393,7 +392,7 @@ function Brand() {
           <span className="block">Geist</span>
         </span>
       </div>
-      <div data-sv-item className={cn("absolute left-[43%] top-[7%] aspect-square w-[27%] overflow-hidden bg-ink-2", card)}>
+      <div className={cn("absolute left-[43%] top-[7%] aspect-square w-[27%] overflow-hidden bg-ink-2", card)}>
         <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full" fill="none" stroke="#5bd17b" strokeOpacity="0.28" strokeWidth="0.4">
           <circle cx="50" cy="50" r="38" />
           <circle cx="50" cy="50" r="24" />
@@ -402,7 +401,7 @@ function Brand() {
         </svg>
         <Image src="/brand/brandspace-logo.png" alt="" fill sizes="(min-width: 1024px) 12vw, 26vw" className="logo-on-dark object-contain p-[3.5cqw]" />
       </div>
-      <div data-sv-item className="absolute right-[5%] top-[7%] grid w-[21%] grid-cols-2 gap-[0.8cqw]">
+      <div className="absolute right-[5%] top-[7%] grid w-[21%] grid-cols-2 gap-[0.8cqw]">
         {swatches.map(([hex, bg, fg]) => (
           <span key={hex} className={cn("flex aspect-[3/4] items-end rounded-[0.9cqw] p-[0.9cqw] text-[1cqw] font-medium tracking-[0.06em]", bg, fg)}>
             {hex}
@@ -410,11 +409,11 @@ function Brand() {
         ))}
       </div>
       {/* Applications: business cards */}
-      <div data-sv-item className="absolute bottom-[9%] left-[43%] w-[26%] -rotate-[4deg] rounded-[1cqw] bg-green p-[2cqw] shadow-[0_3cqw_6cqw_-2cqw_rgba(0,0,0,0.8)]">
+      <div className="absolute bottom-[9%] left-[43%] w-[26%] -rotate-[4deg] rounded-[1cqw] bg-green p-[2cqw] shadow-[0_3cqw_6cqw_-2cqw_rgba(0,0,0,0.8)]">
         <span className="block max-w-[80%] font-serif text-[2.2cqw] italic leading-tight text-ink">Future of Business Growth.</span>
         <span className="mt-[3.6cqw] block h-[0.8cqw] w-[40%] rounded-full bg-ink/30" />
       </div>
-      <div data-sv-item className="absolute bottom-[14%] right-[5%] flex w-[31%] rotate-[3deg] flex-col justify-between rounded-[1cqw] bg-ink-3 p-[2cqw] shadow-[0_3cqw_6cqw_-2cqw_rgba(0,0,0,0.85)] ring-1 ring-paper/15">
+      <div className="absolute bottom-[14%] right-[5%] flex w-[31%] rotate-[3deg] flex-col justify-between rounded-[1cqw] bg-ink-3 p-[2cqw] shadow-[0_3cqw_6cqw_-2cqw_rgba(0,0,0,0.85)] ring-1 ring-paper/15">
         <span className="flex items-center gap-[1cqw]">
           <span className="relative h-[4.2cqw] w-[4.2cqw]">
             <Image src="/brand/brandspace-logo.png" alt="" fill sizes="48px" className="logo-on-dark object-contain" />

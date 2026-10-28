@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import type { TocItem } from "@/lib/blog";
 import { cn } from "@/lib/utils";
-import { useLenis } from "@/components/motion/SmoothScroll";
 
 /** Briefly marks the heading a reader just jumped to (see .prose-bs [data-flash]). */
 function flash(el: HTMLElement) {
@@ -16,15 +15,14 @@ function flash(el: HTMLElement) {
 
 export function TableOfContents({ items }: { items: TocItem[] }) {
   const [active, setActive] = useState(items[0]?.id);
-  const listRef = useRef<HTMLOListElement>(null);
-  const markerRef = useRef<HTMLSpanElement>(null);
-  const lenis = useLenis();
 
   useEffect(() => {
     const els = items.map((i) => document.getElementById(i.id)).filter((e): e is HTMLElement => !!e);
     const io = new IntersectionObserver(
       (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
         if (visible[0]) setActive(visible[0].target.id);
       },
       { rootMargin: "-15% 0px -70% 0px" },
@@ -36,32 +34,16 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
     return () => io.disconnect();
   }, [items]);
 
-  // Slide the indicator to the active entry.
-  useEffect(() => {
-    const list = listRef.current;
-    const marker = markerRef.current;
-    const link = list?.querySelector<HTMLElement>(`a[href="#${CSS.escape(active ?? "")}"]`);
-    if (!marker || !link) return;
-    marker.style.transform = `translateY(${link.offsetTop}px)`;
-    marker.style.height = `${link.offsetHeight}px`;
-    marker.style.opacity = "1";
-  }, [active]);
-
-  const go = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+  /**
+   * The browser performs the jump itself — `html { scroll-padding-top }`
+   * keeps the heading clear of the fixed header. We only mark the heading
+   * and move keyboard focus to the content the reader chose.
+   */
+  const go = (id: string) => {
     const target = document.getElementById(id);
     if (!target) return;
-    e.preventDefault();
-    const offset = -(parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 76) - 24;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (lenis && !reduce) {
-      lenis.scrollTo(target, { offset, duration: 1.1, onComplete: () => flash(target) });
-    } else {
-      window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY + offset, behavior: reduce ? "auto" : "smooth" });
-      flash(target);
-    }
-    history.replaceState(null, "", `#${id}`);
     setActive(id);
-    // Keep keyboard focus with the content the reader chose.
+    flash(target);
     target.setAttribute("tabindex", "-1");
     target.focus({ preventScroll: true });
   };
@@ -70,21 +52,18 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
   return (
     <nav aria-label="On this page">
       <p className="eyebrow text-ink/65">On this page</p>
-      <ol ref={listRef} className="relative mt-5 space-y-1 border-l border-ink/10">
-        <span
-          ref={markerRef}
-          aria-hidden
-          className="absolute -left-px top-0 w-[2px] rounded-full bg-green-deep opacity-0 transition-[transform,height,opacity] duration-500 ease-[var(--ease-out-expo)]"
-        />
+      <ol className="mt-5 space-y-1 border-l border-ink/10">
         {items.map((item) => (
           <li key={item.id}>
             <a
               href={`#${item.id}`}
-              onClick={(e) => go(e, item.id)}
+              onClick={() => go(item.id)}
               aria-current={active === item.id ? "location" : undefined}
               className={cn(
-                "block py-1.5 pl-4 text-[0.88rem] leading-snug transition-[color,translate] duration-500 ease-[var(--ease-out-expo)]",
-                active === item.id ? "translate-x-1 font-medium text-ink" : "text-ink/65 hover:text-ink",
+                "-ml-px block border-l-2 py-1.5 pl-4 text-[0.88rem] leading-snug transition-colors duration-200",
+                active === item.id
+                  ? "border-green-deep font-medium text-ink"
+                  : "border-transparent text-ink/65 hover:text-ink",
               )}
             >
               {item.text}

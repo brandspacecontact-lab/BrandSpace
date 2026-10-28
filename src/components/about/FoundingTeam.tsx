@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { team } from "@/data/team";
 import { cn, pad2 } from "@/lib/utils";
-import { RevealText } from "@/components/motion/RevealText";
-import { SectionLabel } from "@/components/ui/SectionLabel";
+import { Headline } from "@/components/ui/Headline";
+import { SectionLabel } from "@/components/ui/Section";
 import { PlaceholderNote } from "@/components/ui/PlaceholderNote";
 import { Plus } from "@/components/ui/Icons";
 import { Portrait } from "./Portrait";
@@ -18,15 +18,15 @@ export function FoundingTeam() {
         <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">
             <SectionLabel index="06">The people</SectionLabel>
-            <RevealText
+            <Headline
               id="team-title"
               as="h2"
               text={"Meet the\n*founding team.*"}
-              className="font-display-tight mt-6 text-[clamp(3rem,8vw,8rem)] font-semibold uppercase"
+              className="font-display-tight mt-5 text-[clamp(2.2rem,4.4vw,3.6rem)] font-semibold uppercase"
               accentClassName="font-serif italic font-normal normal-case tracking-[-0.02em] text-green"
             />
           </div>
-          <p data-reveal="up" className="max-w-sm text-lg leading-relaxed text-paper/60 lg:col-span-4 lg:justify-self-end">
+          <p className="max-w-sm text-[1.05rem] leading-relaxed text-paper/65 lg:col-span-4 lg:justify-self-end">
             Four founders, one studio. Strategy, design, engineering and performance marketing — under one roof, on every
             project.
           </p>
@@ -36,7 +36,7 @@ export function FoundingTeam() {
           {/* Portrait stage (desktop) */}
           <div className="hidden lg:col-span-5 lg:block">
             <div className="sticky top-[calc(var(--header-h)+2rem)]">
-              <div className="relative overflow-hidden rounded-[6px]" data-fx="parallax" data-fx-amount="2" data-fx-media="lg">
+              <div className="relative overflow-hidden rounded-[6px]">
                 {team.map((m, i) => (
                   <div
                     key={m.slug}
@@ -63,7 +63,7 @@ export function FoundingTeam() {
             {team.map((m, i) => {
               const on = i === active;
               return (
-                <li key={m.slug} data-reveal="words" style={{ ["--rv-delay" as string]: `${i * 110}ms` }} className="border-b border-paper/10">
+                <li key={m.slug} className="border-b border-paper/10">
                   <button
                     type="button"
                     onClick={() => setActive(i)}
@@ -77,14 +77,11 @@ export function FoundingTeam() {
                     <span className="flex-1">
                       <span
                         className={cn(
-                          "block font-display-tight text-[clamp(2.4rem,5.4vw,5rem)] font-semibold transition-[color,transform] duration-700 ease-[var(--ease-out-expo)]",
-                          on ? "translate-x-2 text-paper" : "text-paper/42 group-hover:text-paper/70",
+                          "block font-display-tight text-[clamp(1.9rem,3.6vw,3.2rem)] font-semibold transition-colors duration-200",
+                          on ? "text-paper" : "text-paper/50 group-hover:text-paper/80",
                         )}
                       >
-                        {/* Names rise from behind a mask as the list enters */}
-                        <span className="rw">
-                          <span>{m.name}</span>
-                        </span>
+                        {m.name}
                       </span>
                       <span className={cn("mt-3 block text-sm font-medium uppercase tracking-[0.16em] transition-colors", on ? "text-green" : "text-paper/60")}>
                         {m.role}

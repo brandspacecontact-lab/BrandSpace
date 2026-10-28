@@ -17,10 +17,10 @@ export function BrowserFrame({
   sizes?: string;
   /** Above-the-fold LCP image: load eagerly with high fetch priority. */
   priority?: boolean;
-  /** Slow zoom on reveal / hover. */
+  /** Gentle zoom on hover. */
   zoom?: boolean;
   tone?: "dark" | "light";
-  /** Attributes for the wrapper around the screenshot (e.g. scroll-driven effects). */
+  /** Attributes for the wrapper around the screenshot. */
   mediaProps?: React.HTMLAttributes<HTMLDivElement> & Record<`data-${string}`, string>;
 }) {
   return (
@@ -59,7 +59,7 @@ export function BrowserFrame({
               fetchPriority={priority ? "high" : undefined}
               className={cn(
                 "object-cover object-top",
-                zoom && "rv-zoom transition-[scale,translate] duration-[1.6s] ease-[var(--ease-out-expo)] group-hover:translate-y-[-0.6%] group-hover:scale-[1.035]",
+                zoom && "transition-[scale] duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.03]",
               )}
             />
           ) : (

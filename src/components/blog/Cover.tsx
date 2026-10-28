@@ -6,10 +6,6 @@ import { cn } from "@/lib/utils";
  * Editorial photograph with a light BrandSpace grade: a faint green-ink
  * tint, a soft floor shadow and a hairline grid fading in from one corner.
  * The photo always stays the hero; the grade eases off on hover.
- *
- * `reveal` settles the photo as it enters: "zoom" pairs with a
- * `[data-reveal="clip"]` parent (CSS), "scroll" scrubs 1.08 → 1 with scroll
- * (GSAP). Hover motion lives on the image itself so the two never fight.
  */
 export function Cover({
   photo,
@@ -17,7 +13,6 @@ export function Cover({
   className,
   eager,
   priority,
-  reveal = "zoom",
   label,
 }: {
   photo: Photo;
@@ -25,16 +20,12 @@ export function Cover({
   className?: string;
   eager?: boolean;
   priority?: boolean;
-  reveal?: "zoom" | "scroll" | false;
   /** Small category tag in the top-left corner. */
   label?: string;
 }) {
   return (
     <div className={cn("relative isolate overflow-hidden bg-ink-3", className)}>
-      <div
-        className={cn("absolute inset-0", reveal === "zoom" && "rv-zoom")}
-        {...(reveal === "scroll" ? { "data-fx": "zoom", "data-fx-amount": "1.08", "data-fx-trigger": "parent" } : {})}
-      >
+      <div className="absolute inset-0">
         <PhotoImage
           src={photo.src}
           alt={photo.alt}

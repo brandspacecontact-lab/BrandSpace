@@ -9,10 +9,10 @@ import { breadcrumbSchema, caseStudySchema, pageMetadata } from "@/lib/seo";
 import { pad2 } from "@/lib/utils";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Breadcrumbs } from "@/components/ui/PageHero";
-import { RevealText } from "@/components/motion/RevealText";
+import { Headline } from "@/components/ui/Headline";
 import { BrowserFrame } from "@/components/portfolio/BrowserFrame";
 import { MetricsRow } from "@/components/portfolio/MetricsRow";
-import { SectionLabel } from "@/components/ui/SectionLabel";
+import { SectionLabel } from "@/components/ui/Section";
 import { Avatar } from "@/components/ui/Avatar";
 import { PlaceholderNote } from "@/components/ui/PlaceholderNote";
 import { WhatsAppButton } from "@/components/ui/Button";
@@ -76,17 +76,17 @@ export default async function CaseStudyPage({ params }: PageProps<"/portfolio/[s
           <Breadcrumbs items={crumbs} />
           <div className="mt-10 grid gap-10 sm:mt-14 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-8">
-              <p data-reveal="up" className="eyebrow flex items-center gap-3 text-paper/65">
+              <p className="eyebrow flex items-center gap-3 text-paper/65">
                 <span className="text-green">Case {pad2(index + 1)}</span>
                 <span className="h-px w-8 bg-paper/20" aria-hidden />
                 {p.industry}
               </p>
-              <RevealText as="h1" text={p.name} className="font-display-tight mt-5 text-[clamp(3.4rem,10vw,9.5rem)] font-semibold" />
-              <p data-reveal="up" className="mt-6 max-w-2xl font-serif text-[clamp(1.5rem,2.6vw,2.3rem)] italic leading-snug text-paper/85">
+              <Headline as="h1" text={p.name} className="font-display-tight mt-5 text-[clamp(3.4rem,10vw,9.5rem)] font-semibold" />
+              <p className="mt-6 max-w-2xl font-serif text-[clamp(1.5rem,2.6vw,2.3rem)] italic leading-snug text-paper/85">
                 {p.summary}
               </p>
             </div>
-            <dl data-reveal="up" className="grid grid-cols-2 gap-x-6 gap-y-5 text-sm lg:col-span-4">
+            <dl className="grid grid-cols-2 gap-x-6 gap-y-5 text-sm lg:col-span-4">
               <div>
                 <dt className="eyebrow text-paper/60">Location</dt>
                 <dd className="mt-1.5 text-paper/85">{p.location}</dd>
@@ -111,12 +111,11 @@ export default async function CaseStudyPage({ params }: PageProps<"/portfolio/[s
             </dl>
           </div>
           <div className="relative mt-16 sm:mt-20">
-            <div data-reveal="clip" className="relative z-[1]">
+            <div className="relative z-[1]">
               <BrowserFrame
                 project={p}
                 priority
-                sizes="(min-width: 1536px) 1480px, 100vw"
-                mediaProps={{ "data-fx": "zoom", "data-fx-amount": "1.05", "data-fx-trigger": "parent" }}
+                sizes="(min-width: 1536px) 1480px, 100vw"
               />
             </div>
           </div>
@@ -128,20 +127,20 @@ export default async function CaseStudyPage({ params }: PageProps<"/portfolio/[s
       <section aria-labelledby="brief-title" className="bg-paper py-24 text-ink sm:py-32">
         <div className="container-bs grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <SectionLabel index="01" tone="dark">
+            <SectionLabel index="01" tone="paper">
               The brief
             </SectionLabel>
           </div>
           <div className="lg:col-span-8">
-            <h2 id="brief-title" data-reveal="up" className="font-display text-[clamp(1.7rem,3vw,2.7rem)] font-medium leading-[1.2] tracking-[-0.025em]">
+            <h2 id="brief-title" className="font-display text-[clamp(1.7rem,3vw,2.7rem)] font-medium leading-[1.2] tracking-[-0.025em]">
               {p.overview}
             </h2>
             <div className="mt-14 grid gap-10 border-t border-ink/10 pt-10 sm:grid-cols-2">
-              <div data-reveal="up">
+              <div>
                 <h3 className="eyebrow text-ink/65">The challenge</h3>
                 <p className="mt-4 text-[1.05rem] leading-relaxed text-ink/75">{p.challenge}</p>
               </div>
-              <div data-reveal="up">
+              <div>
                 <h3 className="eyebrow text-ink/65">What we delivered</h3>
                 <ul className="mt-4 space-y-2.5">
                   {p.highlights.map((h) => (
@@ -161,7 +160,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/portfolio/[s
       <section aria-labelledby="impact-title" className="bg-ink py-24 text-paper sm:py-32">
         <div className="container-bs">
           <SectionLabel index="02">Impact</SectionLabel>
-          <RevealText id="impact-title" as="h2" text={"The numbers that *matter.*"} className="font-display-tight mt-6 text-[clamp(2.5rem,5.4vw,5rem)] font-semibold" />
+          <Headline id="impact-title" as="h2" text={"The numbers that *matter.*"} className="font-display-tight mt-6 text-[clamp(2.5rem,5.4vw,5rem)] font-semibold" />
           <div className="mt-14 sm:mt-20">
             <MetricsRow project={p} />
           </div>
@@ -171,10 +170,10 @@ export default async function CaseStudyPage({ params }: PageProps<"/portfolio/[s
       {/* Approach */}
       <section aria-labelledby="approach-title" className="bg-paper py-24 text-ink sm:py-32">
         <div className="container-bs">
-          <SectionLabel index="03" tone="dark">
+          <SectionLabel index="03" tone="paper">
             Approach
           </SectionLabel>
-          <RevealText
+          <Headline
             id="approach-title"
             as="h2"
             text={"How we *built it.*"}
@@ -183,7 +182,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/portfolio/[s
           />
           <ol className="mt-14 grid gap-px overflow-hidden rounded-[8px] bg-ink/10 sm:mt-20 lg:grid-cols-3">
             {p.approach.map((a, i) => (
-              <li key={a.title} data-reveal="up" style={{ ["--rv-delay" as string]: `${i * 90}ms` }} className="bg-paper p-8 sm:p-10">
+              <li key={a.title} className="bg-paper p-8 sm:p-10">
                 <span className="font-display-tight text-6xl font-semibold text-green-deep">{pad2(i + 1)}</span>
                 <h3 className="mt-8 font-display text-2xl font-semibold tracking-[-0.02em]">{a.title}</h3>
                 <p className="mt-3 leading-relaxed text-ink/70">{a.body}</p>
@@ -197,25 +196,25 @@ export default async function CaseStudyPage({ params }: PageProps<"/portfolio/[s
       {p.preview && (
         <section aria-label="Design details" className="bg-ink py-24 text-paper sm:py-32">
           <div className="container-bs grid gap-6 md:grid-cols-12">
-            <div data-reveal="clip" className="md:col-span-7">
+            <div className="md:col-span-7">
               <div className="relative aspect-[4/3] overflow-hidden rounded-[10px] ring-1 ring-paper/10">
                 <Image
                   src={p.preview.src}
                   alt={`Detail of the ${p.name} homepage hero`}
                   fill
                   sizes="(min-width: 768px) 58vw, 100vw"
-                  className="rv-zoom object-cover object-left-top"
+                  className="object-cover object-left-top"
                   style={{ transformOrigin: "left top" }}
                 />
               </div>
             </div>
             <div className="flex flex-col gap-6 md:col-span-5">
-              <div data-reveal="clip" className="flex-1">
+              <div className="flex-1">
                 <div className="relative h-full min-h-[14rem] overflow-hidden rounded-[10px] ring-1 ring-paper/10">
-                  <Image src={p.preview.src} alt="" fill sizes="(min-width: 768px) 40vw, 100vw" className="rv-zoom scale-[1.25] object-cover object-right" />
+                  <Image src={p.preview.src} alt="" fill sizes="(min-width: 768px) 40vw, 100vw" className="scale-[1.25] object-cover object-right" />
                 </div>
               </div>
-              <div data-reveal="up" className="rounded-[10px] bg-ink-3 p-6 ring-1 ring-paper/10">
+              <div className="rounded-[10px] bg-ink-3 p-6 ring-1 ring-paper/10">
                 <p className="eyebrow text-paper/60">Visual language</p>
                 <div className="mt-5 flex gap-3">
                   {[p.palette.bg, p.palette.fg, p.palette.accent].map((c) => (
@@ -235,15 +234,15 @@ export default async function CaseStudyPage({ params }: PageProps<"/portfolio/[s
       {testimonial && (
         <section aria-label="Client feedback" className="bg-paper py-24 text-ink sm:py-32">
           <figure className="container-bs max-w-5xl">
-            <SectionLabel index="04" tone="dark">
+            <SectionLabel index="04" tone="paper">
               Client feedback
             </SectionLabel>
-            <blockquote data-reveal="up" className="mt-10 font-serif text-[clamp(1.8rem,3.8vw,3.4rem)] italic leading-[1.18] text-ink">
+            <blockquote className="mt-10 font-serif text-[clamp(1.8rem,3.8vw,3.4rem)] italic leading-[1.18] text-ink">
               <span className="text-green-deep">“</span>
               {testimonial.quote}
               <span className="text-green-deep">”</span>
             </blockquote>
-            <figcaption data-reveal="up" className="mt-10 flex items-center gap-4">
+            <figcaption className="mt-10 flex items-center gap-4">
               <Avatar name={testimonial.name} photo={testimonial.photo} size={64} />
               <span>
                 <span className="block font-display text-lg font-semibold">{testimonial.name}</span>
@@ -279,7 +278,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/portfolio/[s
           <Link
             href={`/portfolio/${next.slug}`}
             className="group block border-t border-paper/10 pt-8 lg:col-span-5 lg:col-start-8"
-            data-cursor="Next case"
+           
           >
             <span className="eyebrow text-paper/60">Next project</span>
             <span className="mt-3 flex items-center justify-between gap-6">

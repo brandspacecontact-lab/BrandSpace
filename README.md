@@ -3,13 +3,17 @@
 The website for **BrandSpace**, a digital growth agency in Prayagraj offering Web Development + SEO,
 Social Media Management, Meta Ads, Google Business Profile Optimization and Digital Branding.
 
-Built with **Next.js 16 (App Router, Turbopack) · TypeScript · Tailwind CSS v4 · GSAP · Lenis**.
+Built with **Next.js 16 (App Router) · TypeScript · Tailwind CSS v4**.
+
+The site is deliberately static: there is no smooth-scroll hijacking, no scroll-triggered reveals,
+parallax, pinning or scrubbed sequences. Content is readable the moment it paints. Motion is
+limited to hover, focus and state changes the visitor initiates.
 
 ## Pages
 
 | Route | What it is |
 | --- | --- |
-| `/` | Growth City cinematic hero → Services → Selected Work → Why BrandSpace → Results → Process → Client Feedback → CTA |
+| `/` | Hero → Services → Selected Work → Why BrandSpace → Results → Process → Insights → Client Feedback → CTA |
 | `/portfolio`, `/portfolio/[slug]` | Case-study portfolio (6 projects) with full case study pages |
 | `/about` | Story, vision, mission, philosophy, approach, difference, **Meet the Founding Team** |
 | `/blog`, `/blog/[slug]`, `/blog/category/[category]` | Markdown blog with categories, TOC, related articles, sharing |
@@ -41,7 +45,6 @@ Presentation components never hard-code business content. Edit these files:
 | `src/data/team.ts` | Founders: roles, bios, portraits |
 | `src/data/approach.ts` | Why-BrandSpace pillars and the 6-step process |
 | `src/data/blog.ts` + `src/content/blog/*.md` | Blog index/metadata + article bodies (Markdown) |
-| `src/data/growthCity.ts` | Growth City scene copy and timing |
 
 ### ⚠️ Placeholder content to replace before launch
 
@@ -93,10 +96,12 @@ points visitors to WhatsApp and email, so enquiries are never silently lost.
 - **Set `NEXT_PUBLIC_SITE_URL`** (e.g. `https://www.yourdomain.com`) in production. On Vercel it
   falls back to the project's production domain automatically.
 
-## The Growth City hero
+## Layout system
 
-See **[docs/growth-city.md](docs/growth-city.md)**: how the scroll story works, the code-rendered
-city, and the exact Higgsfield prompts, credit budget and import script for cinematic footage.
+Sections are composed from `src/components/ui/Section.tsx` (`Section`, `SectionHeading`,
+`SectionLabel`, `Rule`) so every section shares one vertical rhythm, one heading hierarchy and one
+set of brand surfaces (`ink`, `ink-2`, `paper`, `paper-2`, `green`). Display headings come from
+`src/components/ui/Headline.tsx`, which sets `*asterisked*` words in the italic serif accent.
 
 ## Asset scripts
 
@@ -106,11 +111,10 @@ city, and the exact Higgsfield prompts, credit budget and import script for cine
 | `node scripts/process-portfolio.mjs` | Optimises portfolio screenshots from `assets/source/` |
 | `node scripts/generate-covers.mjs` | Renders blog cover art (1600×900 WebP) |
 | `node scripts/generate-og.mjs` | Renders the default social share image (needs Chromium) |
-| `node scripts/growth-city-frames.mjs` | Converts Higgsfield clips into Growth City frame sequences (needs ffmpeg) |
 
 ## Accessibility & motion
 
 Semantic landmarks, skip link, one `h1` per page, labelled controls, focus-visible styles,
 keyboard-operable menu (focus trap, Escape), WCAG AA text contrast (verified with axe-core), and
-`prefers-reduced-motion` support throughout: smooth scrolling, reveals and the cinematic hero all
-fall back to static presentations.
+and `prefers-reduced-motion` support throughout. Because nothing is driven by scroll position,
+the page reads identically with JavaScript disabled, on slow devices and for assistive technology.

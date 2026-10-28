@@ -53,7 +53,7 @@ export default function BlogPage() {
       <section aria-label="Featured article" className="bg-ink pb-20 text-paper sm:pb-28">
         <div className="container-bs">
           <h2 className="eyebrow mb-8 flex items-center gap-3 text-paper/60">
-            <span aria-hidden data-reveal="line" className="h-px w-10 bg-green" />
+            <span aria-hidden className="h-px w-10 bg-green" />
             Featured
           </h2>
           <PostCard post={featured} minutes={readingTime(featured.slug)} variant="feature" eager />

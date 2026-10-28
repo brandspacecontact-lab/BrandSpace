@@ -358,3 +358,8 @@ export function getProject(slug: string) {
 export function displayUrl(url: string) {
   return url.replace(/^https?:\/\//, "").replace(/\/$/, "");
 }
+
+/** "₹2.4Cr", "4.8x", "+312%" — a metric rendered exactly as it is stored. */
+export function formatMetric(m: Metric) {
+  return `${m.prefix ?? ""}${m.value.toFixed(m.decimals ?? 0)}${m.suffix ?? ""}`;
+}

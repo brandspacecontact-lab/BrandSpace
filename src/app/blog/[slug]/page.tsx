@@ -11,8 +11,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { Breadcrumbs } from "@/components/ui/PageHero";
 import { PostCard, PostMeta } from "@/components/blog/PostCard";
 import { TableOfContents } from "@/components/blog/TableOfContents";
-import { ShareLinks } from "@/components/blog/ShareLinks";
-import { ReadingProgress } from "@/components/blog/ReadingProgress";
+import { ShareLinks } from "@/components/blog/ShareLinks";
 import { Avatar } from "@/components/ui/Avatar";
 import { WhatsAppButton, TextLink } from "@/components/ui/Button";
 
@@ -86,9 +85,7 @@ export default async function ArticlePage({ params }: PageProps<"/blog/[slug]">)
           keywords: post.keywords,
           wordCount: words,
         })}
-      />
-
-      <ReadingProgress targetId="article-body" />
+      />
       <article>
         <header className="grain relative bg-ink pb-40 pt-[calc(var(--header-h)+3.5rem)] text-paper sm:pb-56 sm:pt-[calc(var(--header-h)+5rem)]">
           <div className="container-bs relative z-[2]">
@@ -120,7 +117,7 @@ export default async function ArticlePage({ params }: PageProps<"/blog/[slug]">)
             <figure className="relative -mt-28 sm:-mt-40">
               <div className="relative aspect-[4/3] overflow-hidden rounded-[10px] bg-ink-3 shadow-[0_40px_80px_-40px_rgba(0,0,0,0.5)] sm:aspect-[16/9]">
                 {/* Oversized so the gentle parallax never reveals an edge */}
-                <div className="absolute inset-x-0 -inset-y-[7%]" data-fx="parallax" data-fx-amount="5" data-fx-trigger="parent">
+                <div className="absolute inset-x-0 -inset-y-[7%]">
                   <Photo
                     src={post.cover.src}
                     alt={post.cover.alt}
@@ -198,10 +195,8 @@ export default async function ArticlePage({ params }: PageProps<"/blog/[slug]">)
               <TextLink href="/blog">All articles</TextLink>
             </div>
             <div className="mt-14 grid gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
-              {related.map((p, i) => (
-                <div key={p.slug} data-reveal="up" style={{ ["--rv-delay" as string]: `${i * 120}ms` }}>
-                  <PostCard post={p} minutes={readingTime(p.slug)} />
-                </div>
+              {related.map((p) => (
+                <PostCard key={p.slug} post={p} minutes={readingTime(p.slug)} />
               ))}
             </div>
           </div>

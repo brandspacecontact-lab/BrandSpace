@@ -7,33 +7,19 @@ import { navigation, site } from "@/data/site";
 import { whatsappUrl, telUrl, mailUrl } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/ui/Logo";
-import { Magnetic } from "@/components/motion/Magnetic";
-import { useLenis } from "@/components/motion/SmoothScroll";
 import { ArrowUpRight, WhatsApp } from "@/components/ui/Icons";
 
 export function Navbar() {
   const pathname = usePathname();
-  const lenis = useLenis();
   const [scrolled, setScrolled] = useState(false);
-  const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
-  const lastY = useRef(0);
   const menuRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
-  const navListRef = useRef<HTMLUListElement>(null);
-  const pillRef = useRef<HTMLSpanElement>(null);
 
-  // Solid background after leaving the top; hide on scroll down, reveal on scroll up.
+  // The bar is always in place; it only gains a solid background once the
+  // page has left the top, so the header never sits on top of the hero type.
   useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY;
-      setScrolled(y > 24);
-      const delta = y - lastY.current;
-      if (Math.abs(delta) > 6) {
-        setHidden(delta > 0 && y > 480);
-        lastY.current = y;
-      }
-    };
+    const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -50,7 +36,6 @@ export function Navbar() {
   // Lock scroll + focus management + Escape while the menu is open.
   useEffect(() => {
     if (!open) return;
-    lenis?.stop();
     document.documentElement.style.overflow = "hidden";
     const menu = menuRef.current;
     const focusables = () =>
@@ -78,44 +63,18 @@ export function Navbar() {
     return () => {
       document.removeEventListener("keydown", onKey);
       document.documentElement.style.overflow = "";
-      lenis?.start();
     };
-  }, [open, lenis]);
+  }, [open]);
 
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
-
-  // Sliding pill: follows the hovered link and settles back on the current page.
-  const movePill = useCallback((link: HTMLElement | null | undefined) => {
-    const pill = pillRef.current;
-    if (!pill) return;
-    if (!link) {
-      pill.style.opacity = "0";
-      return;
-    }
-    pill.style.opacity = "1";
-    pill.style.transform = `translateX(${link.offsetLeft}px)`;
-    pill.style.width = `${link.offsetWidth}px`;
-  }, []);
-  const pillToActive = useCallback(
-    () => movePill(navListRef.current?.querySelector<HTMLElement>("a[aria-current='page']")),
-    [movePill],
-  );
-  useEffect(() => {
-    pillToActive();
-    // Web fonts change link widths once they load.
-    void document.fonts?.ready.then(pillToActive);
-    window.addEventListener("resize", pillToActive);
-    return () => window.removeEventListener("resize", pillToActive);
-  }, [pathname, pillToActive]);
 
   return (
     <>
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 transition-[transform,background-color,border-color] duration-500 ease-[var(--ease-out-expo)]",
-          hidden && !open ? "-translate-y-full" : "translate-y-0",
+          "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
           scrolled && !open
-            ? "border-b border-paper/[0.07] bg-ink/85 backdrop-blur-xl backdrop-saturate-150"
+            ? "border-b border-paper/[0.08] bg-ink/90 backdrop-blur-xl"
             : "border-b border-transparent bg-transparent",
         )}
       >
@@ -123,16 +82,7 @@ export function Navbar() {
           <Logo className="relative z-10" />
 
           <nav aria-label="Primary" className="hidden lg:block">
-            <ul
-              ref={navListRef}
-              onMouseLeave={pillToActive}
-              className="relative flex items-center gap-1 rounded-full border border-paper/[0.08] bg-ink/30 p-1 backdrop-blur-md"
-            >
-              <span
-                ref={pillRef}
-                aria-hidden
-                className="pointer-events-none absolute left-0 top-1 h-[calc(100%-0.5rem)] rounded-full bg-paper/[0.09] opacity-0 transition-[transform,width,opacity] duration-500 ease-[var(--ease-out-expo)]"
-              />
+            <ul className="flex items-center gap-8">
               {navigation.map((item) => {
                 const active = isActive(item.href);
                 return (
@@ -140,18 +90,19 @@ export function Navbar() {
                     <Link
                       href={item.href}
                       aria-current={active ? "page" : undefined}
-                      onMouseEnter={(e) => movePill(e.currentTarget)}
-                      onFocus={(e) => movePill(e.currentTarget)}
-                      onBlur={pillToActive}
                       className={cn(
-                        "relative block rounded-full px-4 py-2 text-[0.82rem] font-medium transition-colors duration-300",
-                        active ? "text-paper" : "text-paper/60 hover:text-paper",
+                        "relative block py-2 text-[0.85rem] font-medium transition-colors duration-200",
+                        active ? "text-paper" : "text-paper/65 hover:text-paper",
                       )}
                     >
                       {item.label}
-                      {active && (
-                        <span className="absolute bottom-1 left-1/2 h-[3px] w-[3px] -translate-x-1/2 rounded-full bg-green" aria-hidden />
-                      )}
+                      <span
+                        aria-hidden
+                        className={cn(
+                          "absolute inset-x-0 -bottom-0.5 h-px bg-green transition-opacity duration-200",
+                          active ? "opacity-100" : "opacity-0",
+                        )}
+                      />
                     </Link>
                   </li>
                 );
@@ -160,22 +111,18 @@ export function Navbar() {
           </nav>
 
           <div className="relative z-10 flex shrink-0 items-center gap-2 sm:gap-3">
-            <Magnetic strength={0.2}>
-              <a
-                href={whatsappUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Let’s Grow — chat with BrandSpace on WhatsApp (opens in a new tab)"
-                className="group relative inline-flex h-11 items-center gap-2 overflow-hidden whitespace-nowrap rounded-full bg-green pl-3.5 pr-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.1em] text-ink sm:gap-2.5 sm:pl-5 sm:text-[0.78rem] sm:tracking-[0.14em]"
-              >
-                {/* Fill sweeps across on hover */}
-                <span aria-hidden className="absolute inset-0 origin-left scale-x-0 rounded-full bg-green-bright transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-x-100" />
-                <span className="relative">Let’s Grow</span>
-                <span className="relative grid h-8 w-8 place-items-center rounded-full bg-ink text-green transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:rotate-[-12deg] group-hover:scale-110">
-                  <WhatsApp size={16} />
-                </span>
-              </a>
-            </Magnetic>
+            <a
+              href={whatsappUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Let’s Grow — chat with BrandSpace on WhatsApp (opens in a new tab)"
+              className="inline-flex h-11 items-center gap-2.5 whitespace-nowrap rounded-full bg-green pl-4 pr-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-ink transition-colors duration-200 hover:bg-green-bright sm:pl-5 sm:text-[0.76rem] sm:tracking-[0.14em]"
+            >
+              Let’s Grow
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-ink text-green">
+                <WhatsApp size={16} />
+              </span>
+            </a>
 
             <button
               ref={toggleRef}
@@ -190,15 +137,15 @@ export function Navbar() {
               <span
                 aria-hidden
                 className={cn(
-                  "absolute h-px w-[18px] bg-paper transition-transform duration-500 ease-[var(--ease-out-expo)]",
+                  "absolute h-px w-[18px] bg-paper transition-transform duration-300",
                   open ? "rotate-45" : "-translate-y-[4px]",
                 )}
               />
               <span
                 aria-hidden
                 className={cn(
-                  "absolute h-px bg-paper transition-all duration-500 ease-[var(--ease-out-expo)]",
-                  open ? "w-[18px] -rotate-45" : "w-3 translate-x-[-3px] translate-y-[4px]",
+                  "absolute h-px w-[18px] bg-paper transition-transform duration-300",
+                  open ? "-rotate-45" : "translate-y-[4px]",
                 )}
               />
             </button>
@@ -206,14 +153,7 @@ export function Navbar() {
         </div>
       </header>
 
-      {/* Mobile / tablet menu: a green curtain leads, the ink panel follows */}
-      <div
-        aria-hidden
-        className={cn(
-          "pointer-events-none fixed inset-0 z-40 bg-green transition-[clip-path] duration-[650ms] ease-[var(--ease-in-out-quart)] lg:hidden",
-          open ? "[clip-path:inset(0_0_0_0)] delay-0" : "[clip-path:inset(0_0_100%_0)] delay-[120ms]",
-        )}
-      />
+      {/* Mobile / tablet menu */}
       <div
         id="mobile-menu"
         ref={menuRef}
@@ -223,8 +163,8 @@ export function Navbar() {
         aria-hidden={!open}
         inert={!open}
         className={cn(
-          "fixed inset-0 z-40 flex flex-col bg-ink transition-[clip-path] duration-700 ease-[var(--ease-in-out-quart)] lg:hidden",
-          open ? "[clip-path:inset(0_0_0_0)] delay-[110ms]" : "pointer-events-none [clip-path:inset(0_0_100%_0)] delay-0",
+          "fixed inset-0 z-40 flex flex-col bg-ink transition-opacity duration-200 lg:hidden",
+          open ? "opacity-100" : "pointer-events-none opacity-0",
         )}
       >
         <div className="hairline-grid pointer-events-none absolute inset-0 opacity-40" aria-hidden />
@@ -233,19 +173,17 @@ export function Navbar() {
             {navigation.map((item, i) => {
               const active = isActive(item.href);
               return (
-                <li key={item.href} className="overflow-hidden">
+                <li key={item.href}>
                   <Link
                     href={item.href}
                     onClick={close}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "flex items-baseline gap-4 py-1.5 font-display text-[clamp(2.6rem,11vw,4.5rem)] font-semibold leading-[1] tracking-[-0.045em] transition-[transform,color,opacity] duration-[900ms] ease-[var(--ease-out-expo)]",
-                      open ? "translate-y-0 opacity-100" : "translate-y-full opacity-0",
-                      active ? "text-green" : "text-paper",
+                      "flex items-baseline gap-4 py-2 font-display text-[clamp(2.2rem,9vw,3.4rem)] font-semibold leading-[1.1] tracking-[-0.04em] transition-colors",
+                      active ? "text-green" : "text-paper hover:text-green",
                     )}
-                    style={{ transitionDelay: open ? `${260 + i * 70}ms` : "0ms" }}
                   >
-                    <span className="font-sans text-xs font-medium tracking-[0.2em] text-paper/65">0{i + 1}</span>
+                    <span className="font-sans text-xs font-medium tracking-[0.2em] text-paper/55">0{i + 1}</span>
                     {item.label}
                   </Link>
                 </li>
@@ -253,12 +191,7 @@ export function Navbar() {
             })}
           </ul>
         </nav>
-        <div
-          className={cn(
-            "container-bs relative grid gap-6 border-t border-paper/10 py-8 transition-[opacity,transform] duration-700 ease-[var(--ease-out-expo)] sm:grid-cols-2",
-            open ? "translate-y-0 opacity-100 delay-[650ms]" : "translate-y-3 opacity-0",
-          )}
-        >
+        <div className="container-bs relative grid gap-6 border-t border-paper/10 py-8 sm:grid-cols-2">
           <div className="space-y-2 text-sm text-paper/70">
             <a href={mailUrl} className="block hover:text-paper">{site.email}</a>
             <a href={telUrl} className="block hover:text-paper">{site.phone.display}</a>

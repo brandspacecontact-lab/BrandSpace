@@ -12,23 +12,10 @@ import { TextLink } from "@/components/ui/Button";
 
 const serviceName = (slug: string) => services.find((s) => s.slug === slug)?.shortName ?? slug;
 
-/** Staggered entrance for the copy column. */
-const delay = (i: number) => ({ ["--rv-delay" as string]: `${i * 80}ms` }) as React.CSSProperties;
-
 function Frame({ p, i, sizes }: { p: Project; i: number; sizes: string }) {
   return (
-    <Link href={`/portfolio/${p.slug}`} data-cursor="View case" aria-label={`${p.name} — view case study`} className="group block">
-      {/* Frame drifts gently; the screenshot inside settles from 1.06 → 1 as it enters */}
-      <div data-fx="parallax" data-fx-amount="3" data-fx-media="md">
-        <div data-reveal="clip">
-          <BrowserFrame
-            project={p}
-            sizes={sizes}
-            priority={i === 0}
-            mediaProps={{ "data-fx": "zoom", "data-fx-amount": "1.06", "data-fx-trigger": "parent" }}
-          />
-        </div>
-      </div>
+    <Link href={`/portfolio/${p.slug}`} aria-label={`${p.name} — view case study`} className="group block">
+      <BrowserFrame project={p} sizes={sizes} priority={i === 0} />
     </Link>
   );
 }
@@ -38,11 +25,10 @@ function Meta({ p, i }: { p: Project; i: number }) {
     <>
       <span
         aria-hidden
-        data-reveal="line"
         className="block h-[2px] w-16 rounded-full"
         style={{ background: p.palette.mood ?? p.palette.accent }}
       />
-      <p data-reveal="up" style={delay(0)} className="eyebrow mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-paper/60">
+      <p className="eyebrow mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-paper/60">
         <span className="text-green">{pad2(i + 1)}</span>
         <span>{p.industry}</span>
         <span aria-hidden>·</span>
@@ -54,9 +40,9 @@ function Meta({ p, i }: { p: Project; i: number }) {
   );
 }
 
-function Links({ p, index }: { p: Project; index: number }) {
+function Links({ p }: { p: Project }) {
   return (
-    <div data-reveal="up" style={delay(index)} className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
+    <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
       <TextLink href={`/portfolio/${p.slug}`}>Read case study</TextLink>
       <a
         href={p.url}
@@ -71,9 +57,9 @@ function Links({ p, index }: { p: Project; index: number }) {
   );
 }
 
-function Pills({ p, index }: { p: Project; index: number }) {
+function Pills({ p }: { p: Project }) {
   return (
-    <ul data-reveal="up" style={delay(index)} className="mt-6 flex flex-wrap gap-2" aria-label="Services delivered">
+    <ul className="mt-6 flex flex-wrap gap-2" aria-label="Services delivered">
       {p.services.map((s) => (
         <li key={s} className="rounded-full border border-paper/12 px-3 py-1 text-[0.72rem] text-paper/65">
           {serviceName(s)}
@@ -83,11 +69,9 @@ function Pills({ p, index }: { p: Project; index: number }) {
   );
 }
 
-function Title({ p, index, large }: { p: Project; index: number; large?: boolean }) {
+function Title({ p, large }: { p: Project; large?: boolean }) {
   return (
     <h2
-      data-reveal="up"
-      style={delay(index)}
       className={cn(
         "font-display-tight mt-4 font-semibold",
         large ? "text-[clamp(2.6rem,5.6vw,5.4rem)]" : "text-[clamp(2.4rem,4.4vw,4rem)]",
@@ -108,19 +92,17 @@ function WideRow({ p, i }: { p: Project; i: number }) {
       <div className="mt-10 grid gap-8 lg:mt-14 lg:grid-cols-12 lg:gap-12">
         <div className="lg:col-span-5">
           <Meta p={p} i={i} />
-          <Title p={p} index={1} large />
+          <Title p={p} large />
         </div>
         <div className="lg:col-span-4 lg:pt-10">
-          <p data-reveal="up" style={delay(2)} className="text-[1.05rem] leading-relaxed text-paper/60">
+          <p className="text-[1.05rem] leading-relaxed text-paper/60">
             {p.overview}
           </p>
-          <Pills p={p} index={3} />
+          <Pills p={p} />
         </div>
         <div className="lg:col-span-3 lg:pt-10">
-          <div data-reveal="up" style={delay(3)}>
-            <MetricsRow project={p} compact />
-          </div>
-          <Links p={p} index={4} />
+          <MetricsRow project={p} compact />
+          <Links p={p} />
         </div>
       </div>
     </article>
@@ -136,15 +118,15 @@ function SplitRow({ p, i, flip }: { p: Project; i: number; flip: boolean }) {
       </div>
       <div className={cn("lg:col-span-5", flip ? "lg:order-1 lg:col-start-1 lg:row-start-1" : "lg:col-start-8")}>
         <Meta p={p} i={i} />
-        <Title p={p} index={1} />
-        <p data-reveal="up" style={delay(2)} className="mt-4 max-w-md text-[1.05rem] leading-relaxed text-paper/60">
+        <Title p={p} />
+        <p className="mt-4 max-w-md text-[1.05rem] leading-relaxed text-paper/60">
           {p.overview}
         </p>
-        <Pills p={p} index={3} />
-        <div data-reveal="up" style={delay(4)} className="mt-8">
+        <Pills p={p} />
+        <div className="mt-8">
           <MetricsRow project={p} compact />
         </div>
-        <Links p={p} index={5} />
+        <Links p={p} />
       </div>
     </article>
   );

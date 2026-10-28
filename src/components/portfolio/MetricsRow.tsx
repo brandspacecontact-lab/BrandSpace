@@ -1,5 +1,4 @@
-import type { Project } from "@/data/portfolio";
-import { CountUp } from "@/components/motion/CountUp";
+import { formatMetric, type Project } from "@/data/portfolio";
 import { PlaceholderNote } from "@/components/ui/PlaceholderNote";
 import { cn } from "@/lib/utils";
 
@@ -23,18 +22,14 @@ export function MetricsRow({
             <dt className={cn("order-2 mt-2 text-[0.7rem] font-semibold uppercase leading-tight tracking-[0.14em]", tone === "light" ? "text-paper/60" : "text-ink/65")}>
               {m.label}
             </dt>
-            <dd className="order-1">
-              <CountUp
-                value={m.value}
-                prefix={m.prefix}
-                suffix={m.suffix}
-                decimals={m.decimals}
-                className={cn(
-                  "font-display-tight block font-semibold tabular-nums",
-                  compact ? "text-[clamp(1.8rem,3vw,2.6rem)]" : "text-[clamp(2.6rem,6vw,5.4rem)]",
-                  tone === "light" ? "text-green" : "text-ink",
-                )}
-              />
+            <dd
+              className={cn(
+                "font-display-tight order-1 font-semibold tabular-nums",
+                compact ? "text-[clamp(1.6rem,2.6vw,2.2rem)]" : "text-[clamp(2.2rem,4.4vw,3.6rem)]",
+                tone === "light" ? "text-green" : "text-ink",
+              )}
+            >
+              {formatMetric(m)}
             </dd>
             {!compact && (
               <dd className={cn("order-3 mt-2 text-sm leading-snug", tone === "light" ? "text-paper/60" : "text-ink/65")}>{m.context}</dd>

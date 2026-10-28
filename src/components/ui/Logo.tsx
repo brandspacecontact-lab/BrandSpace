@@ -21,9 +21,9 @@ export function Logo({ className, tone = "light" }: { className?: string; tone?:
     <Link
       href="/"
       aria-label="BrandSpace — home"
-      className={cn("group inline-flex shrink-0 items-center gap-2 sm:gap-2.5", className)}
+      className={cn("inline-flex shrink-0 items-center gap-2 sm:gap-2.5", className)}
     >
-      <LogoMark size={42} eager className="h-9 w-9 transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:rotate-[-8deg] group-hover:scale-105 sm:h-[42px] sm:w-[42px]" />
+      <LogoMark size={42} eager className="h-9 w-9 sm:h-[42px] sm:w-[42px]" />
       <span className="flex flex-col leading-none">
         <span
           className={cn(

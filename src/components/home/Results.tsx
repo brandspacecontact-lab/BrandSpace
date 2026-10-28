@@ -1,9 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { projects, type Metric } from "@/data/portfolio";
-import { CountUp } from "@/components/motion/CountUp";
-import { RevealText } from "@/components/motion/RevealText";
-import { SectionLabel } from "@/components/ui/SectionLabel";
+import { formatMetric, projects, type Metric } from "@/data/portfolio";
+import { Section, SectionHeading } from "@/components/ui/Section";
 import { PlaceholderNote } from "@/components/ui/PlaceholderNote";
 import { ArrowUpRight } from "@/components/ui/Icons";
 
@@ -25,81 +23,56 @@ export function Results() {
     .filter((x): x is NonNullable<typeof x> => x !== null);
 
   return (
-    <section aria-labelledby="results-title" className="bg-paper py-24 text-ink sm:py-32">
-      <div className="container-bs">
-        <div className="grid gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-7">
-            <SectionLabel index="04" tone="dark">
-              Results
-            </SectionLabel>
-            <RevealText
-              id="results-title"
-              as="h2"
-              text={"Growth you can *measure.*"}
-              className="font-display-tight mt-6 text-[clamp(2.7rem,6.4vw,6rem)] font-semibold"
-              accentClassName="font-serif italic font-normal tracking-[-0.02em] text-green-deep"
-            />
-          </div>
-          <p data-reveal="up" className="max-w-md self-end text-lg leading-relaxed text-ink/65 lg:col-span-5 lg:justify-self-end">
-            We agree on the numbers that matter before we start — then report on them plainly. Here’s what that looks
-            like across recent work.
-          </p>
-        </div>
+    <Section tone="paper" labelledBy="results-title">
+      <SectionHeading
+        id="results-title"
+        index="04"
+        label="Results"
+        title={"Growth you can *measure.*"}
+        intro="We agree on the numbers that matter before we start — then report on them plainly. Here’s what that looks like across recent work."
+        tone="paper"
+      />
 
-        <ol className="mt-16 border-t border-ink/15 lg:mt-24">
-          {items.map(({ project, metric }, i) => (
-            // data-center: <InViewObserver> sets data-active while the row crosses the middle of the screen.
-            <li key={project.slug} data-center data-reveal="up" className="group/row" style={{ ["--rv-delay" as string]: `${i * 80}ms` }}>
-              <Link
-                href={`/portfolio/${project.slug}`}
-                className="group relative grid grid-cols-12 items-center gap-x-4 gap-y-3 border-b border-ink/15 py-8 transition-colors duration-700 hover:bg-ink/[0.03] group-data-[active]/row:bg-ink/[0.035] sm:py-10"
-              >
-                {/* Accent line extends along the rule while the row is in focus */}
-                <span
-                  aria-hidden
-                  className="absolute -bottom-px left-0 h-px w-full origin-left scale-x-0 bg-green-deep transition-transform duration-[1100ms] ease-[var(--ease-out-expo)] group-hover:scale-x-100 group-data-[active]/row:scale-x-100"
+      <ol className="mt-14 border-t border-ink/15 lg:mt-20">
+        {items.map(({ project, metric }) => (
+          <li key={project.slug}>
+            <Link
+              href={`/portfolio/${project.slug}`}
+              className="group grid grid-cols-12 items-center gap-x-4 gap-y-3 border-b border-ink/15 py-8 transition-colors duration-200 hover:bg-ink/[0.03] sm:py-9"
+            >
+              <div className="col-span-12 flex items-center gap-4 sm:col-span-4">
+                <span className="relative hidden h-14 w-24 shrink-0 overflow-hidden rounded-[4px] bg-ink sm:block">
+                  {project.preview && (
+                    <Image src={project.preview.src} alt="" fill sizes="120px" className="object-cover object-top" />
+                  )}
+                </span>
+                <span>
+                  <span className="block font-display text-lg font-semibold tracking-[-0.02em]">{project.name}</span>
+                  <span className="block text-sm text-ink/60">{project.industry}</span>
+                </span>
+              </div>
+              <div className="col-span-7 sm:col-span-4">
+                <span className="font-display-tight block text-[clamp(2.4rem,5vw,4rem)] font-semibold tabular-nums text-ink transition-colors duration-200">
+                  {formatMetric(metric)}
+                </span>
+              </div>
+              <div className="col-span-5 flex items-center justify-between gap-4 sm:col-span-4">
+                <span>
+                  <span className="block text-sm font-semibold uppercase tracking-[0.12em] text-green-deep">
+                    {metric.label}
+                  </span>
+                  <span className="mt-1 block text-sm leading-snug text-ink/65">{metric.context}</span>
+                </span>
+                <ArrowUpRight
+                  size={22}
+                  className="hidden shrink-0 text-ink/30 transition-colors duration-200 group-hover:text-green-deep sm:block"
                 />
-                <div className="col-span-12 flex items-center gap-4 sm:col-span-4">
-                  <span className="relative hidden h-14 w-24 shrink-0 origin-left overflow-hidden rounded-[4px] bg-ink transition-[scale] duration-700 ease-[var(--ease-out-expo)] group-data-[active]/row:scale-[1.18] sm:block">
-                    {project.preview && (
-                      <Image
-                        src={project.preview.src}
-                        alt=""
-                        fill
-                        sizes="120px"
-                        className="object-cover object-top transition-[scale] duration-700 group-hover:scale-110"
-                      />
-                    )}
-                  </span>
-                  <span className="transition-[translate] duration-700 ease-[var(--ease-out-expo)] sm:group-data-[active]/row:translate-x-3">
-                    <span className="block font-display text-xl font-semibold tracking-[-0.02em]">{project.name}</span>
-                    <span className="block text-sm text-ink/65">{project.industry}</span>
-                  </span>
-                </div>
-                <div className="col-span-7 sm:col-span-4">
-                  <CountUp
-                    value={metric.value}
-                    prefix={metric.prefix}
-                    suffix={metric.suffix}
-                    decimals={metric.decimals}
-                    className="font-display-tight block origin-left text-[clamp(3rem,7vw,6rem)] font-semibold tabular-nums text-ink/55 transition-[color,scale] duration-700 ease-[var(--ease-out-expo)] group-hover:text-ink group-data-[active]/row:scale-[1.06] group-data-[active]/row:text-ink"
-                  />
-                </div>
-                <div className="col-span-5 flex items-center justify-between gap-4 sm:col-span-4">
-                  <span>
-                    <span className="block text-sm font-semibold uppercase tracking-[0.12em] text-green-deep">{metric.label}</span>
-                    <span className="mt-1 block text-sm leading-snug text-ink/65 transition-colors duration-700 group-data-[active]/row:text-ink/85">
-                      {metric.context}
-                    </span>
-                  </span>
-                  <ArrowUpRight size={22} className="hidden shrink-0 text-ink/30 transition-all group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-ink group-data-[active]/row:text-green-deep sm:block" />
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ol>
-        <PlaceholderNote status={items.map((x) => x.project.metrics.status)} tone="dark" className="mt-6" />
-      </div>
-    </section>
+              </div>
+            </Link>
+          </li>
+        ))}
+      </ol>
+      <PlaceholderNote status={items.map((x) => x.project.metrics.status)} tone="dark" className="mt-6" />
+    </Section>
   );
 }

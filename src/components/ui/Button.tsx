@@ -2,7 +2,6 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { whatsappUrl } from "@/lib/whatsapp";
 import { ArrowRight, ArrowUpRight, WhatsApp } from "./Icons";
-import { Magnetic } from "@/components/motion/Magnetic";
 
 type Variant = "primary" | "light" | "outline" | "outline-dark" | "dark";
 type Size = "md" | "lg";
@@ -43,7 +42,6 @@ type CommonProps = {
   size?: Size;
   className?: string;
   icon?: "arrow" | "external" | "whatsapp";
-  magnetic?: boolean;
 };
 
 function Inner({ children, variant = "primary", icon = "arrow" }: CommonProps) {
@@ -88,29 +86,23 @@ const shell = (variant: Variant, size: Size, className?: string) =>
     className,
   );
 
-export function ButtonLink({
-  href,
-  magnetic = true,
-  ...props
-}: CommonProps & { href: string }) {
+export function ButtonLink({ href, ...props }: CommonProps & { href: string }) {
   const { variant = "primary", size = "md", className } = props;
-  const el = (
+  return (
     <Link href={href} className={shell(variant, size, className)}>
       <Inner {...props} />
     </Link>
   );
-  return magnetic ? <Magnetic>{el}</Magnetic> : el;
 }
 
 /** Primary conversion action — opens WhatsApp chat in a new tab/app. */
 export function WhatsAppButton({
   message,
-  magnetic = true,
   label,
   ...props
 }: Omit<CommonProps, "icon"> & { message?: string; label?: string }) {
   const { variant = "primary", size = "md", className } = props;
-  const el = (
+  return (
     <a
       href={whatsappUrl(message)}
       target="_blank"
@@ -121,7 +113,6 @@ export function WhatsAppButton({
       <Inner {...props} icon="whatsapp" />
     </a>
   );
-  return magnetic ? <Magnetic>{el}</Magnetic> : el;
 }
 
 /** Understated underlined text link with arrow. */

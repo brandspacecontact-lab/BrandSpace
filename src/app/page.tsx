@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { site } from "@/data/site";
 import { pageMetadata } from "@/lib/seo";
-import { GrowthCity } from "@/components/home/growth-city/GrowthCity";
+import { Hero } from "@/components/home/Hero";
 import { Services } from "@/components/home/Services";
 import { SelectedWork } from "@/components/home/SelectedWork";
 import { EditorialBreak } from "@/components/home/EditorialBreak";
@@ -22,7 +22,7 @@ export const metadata: Metadata = pageMetadata({
 export default function Home() {
   return (
     <>
-      <GrowthCity />
+      <Hero />
       <Services />
       <SelectedWork />
       <EditorialBreak />
